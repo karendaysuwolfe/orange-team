@@ -7,7 +7,7 @@ config = {
     "user": "bacchus_user",
     "password": "mysqltest",
     "host": "127.0.0.1",
-    "database": "mysqltest",
+    "database": "bacchus_wine",
     "raise_on_warnings": True
 }
 
@@ -79,3 +79,41 @@ def fill_tables():
     mydb.commit()
     print(mycursor.rowcount, "rows were inserted into Employee Time Worked Table")
 
+    # fill position table
+
+    position = ("INSERT INTO position (Position_ID, Position_Title VARCHAR(25), Pay_Grade INT, Hourly BIT(1), Supervisory BIT(1))" 
+                "VALUES (%s,%s, %s,%s,%s)")
+
+    values = [
+        (100, 'Owner', 'Null', 'N','Y'),
+        (120, 'Administrative Assistant', 20, 'Y', 'N'),
+        (200, 'Sales', 30, 'N', 'N'),
+        (220, 'Marketing', 25, 'N', 'N'),
+        (300, 'Production Manager', 23, 'Y', 'Y'),
+        (320, 'Production Laborer', 20, 'Y', 'N'),
+        (400, 'Maintenance', 20, 'Y', 'N'),
+        (420, 'Environmental', 15, 'Y', 'N'),
+        (500, 'Accounting / Payroll', 30, 'Y', 'N'),
+        (600, 'Logistics', 25, 'Y', 'N'),
+    ]
+    mycursor.executemany(position, values)
+    mydb.commit()
+    print(mycursor.rowcount, "row were inserted into position table")
+
+# fill zip code table
+
+    zip_lookup = ("INSERT INTO zip_lookup(Zip INT, City VARCHAR(25), State VARCHAR(10), Country VARCHAR(20))"
+                  "VALUES (%s, %s,%s,%s)")
+
+    values = [
+        (68111, 'Omaha', 'NE', 'USA'),
+        (50310, 'Des Moines', 'IA', 'USA'),
+        (53188, 'Waukesha', 'WI', 'USA'),
+        (27513, 'Cary', 'NC', 'USA'),
+        (52501, 'Ottumwa', 'IA', 'USA'),
+        (51537, 'Harland', 'IA', 'USA'),
+    ]
+
+    mycursor.executemany(zip_lookup, values)
+    mydb.commit()
+    print(mycursor.rowcount, "row were inserted into zip table")
